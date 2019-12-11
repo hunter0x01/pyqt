@@ -1,0 +1,121 @@
+* {
+	font-family:  'Hoefler Text', Georgia, 'Times New Roman', serif;
+	font-size: 14px;
+}
+
+.toc li {
+	list-style-type: none;
+}
+
+h1 {
+	color: #444;
+	margin: 0;
+	padding: 0px 0px 6px 0px;
+	font-size: 51px;
+	line-height: 44px;
+	letter-spacing: -2px;
+	font-weight: bold;
+	border-bottom: 3px solid;
+}
+
+h2 {
+	color: #444;
+	margin: 0;
+	padding: 0px 0px 6px 0px;
+	font-size: 40px;
+	line-height: 38px;
+	letter-spacing: -2px;
+	font-weight: bold;
+	border-bottom: 2px solid;
+}
+
+h3 {
+	color: #444;
+	margin: 0;
+	padding: 0px 0px 6px 0px;
+	font-size: 32px;
+	line-height: 28px;
+	letter-spacing: -2px;
+	font-weight: bold;
+	border-bottom: 1px solid;
+}
+
+h4 {
+	color: #444;
+	margin: 0;
+	padding: 0px 0px 6px 0px;
+	font-size: 24px;
+	line-height: 20px;
+	letter-spacing: -2px;
+	font-weight: bold;
+}
+
+h5 {
+	color: #444;
+	margin: 0;
+	padding: 0px 0px 6px 0px;
+	font-size: 20px;
+	line-height: 18px;
+	letter-spacing: -2px;
+	font-weight: bold;
+}
+
+h6 {
+	color: #444;
+	margin: 0;
+	padding: 0px 0px 6px 0px;
+	font-size: 18px;
+	line-height: 18px;
+	letter-spacing: -2px;
+}
+
+blockquote {
+
+  font-style: normal;
+  font-size: 16px;
+  margin-left: 32px;
+  font-family: Consolas, "Times New Roman", Verdana;
+  border: 1px solid #CCC;
+  border-left: 4px solid #CCC;
+  border-radius: 4px;
+  padding-left: 8px;
+}
+
+p {
+  margin-top: 4px;
+  margin-left: 4px;
+}
+
+/* code bloc */
+pre {
+  margin: 8px;
+  padding: 4px;
+  background-color: #FFFF66;
+  border-radius: 4px;
+}
+
+/* keyword */
+.k {
+	color: #00007F;
+}
+
+/* name class */
+.nc {
+	color: #009999;
+	font-weight: bold;
+}
+
+/* name base */
+.nb {
+	color: #800000;
+}
+
+/* name function */
+.nf {
+	color: #009999;
+}
+
+/* string */
+.s, .sd {
+	color: #007F00;
+}

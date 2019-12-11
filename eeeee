@@ -1,0 +1,18 @@
+from PyQt4 import QtGui
+
+def handler(item, column_no):
+    print(item, column_no)
+
+def main():
+    app = QtGui.QApplication(sys.argv)
+    win = QtGui.QTreeWidget()
+
+    items = [QtGui.QTreeWidgetItem("item: {}".format(i)) for i in xrange(10)]
+    win.insertTopLevelItems(0, items)
+    win.itemDoubleClicked.connect(handler)
+
+    win.show()
+    sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    main()
