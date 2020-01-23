@@ -12,9 +12,13 @@ from PyQt5.QtWidgets import QTreeWidgetItem, QStackedWidget, QTableView, QToolBa
 from PyQt5.QtCore import QBasicTimer, pyqtSignal, QObject, QSize, QRect
 from PyQt5.QtGui import QIcon, QPixmap, QColor, QPainter, QBrush, QPen, QPolygonF, QWheelEvent
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
+from PyQt5 import uic
 import requests
 from bs4 import BeautifulSoup
 import random
+
+
+# python3 -m PyQt5.uic.pyuic -x ui/wg_test1.ui -o ui/wg_test1.pyw
 
 class DashBoardWidget(QWidget):
     def __init__(self, parent=None):
@@ -42,22 +46,21 @@ class AssetList_Widget(QWidget):
     def __init__(self, parent=None):
         super(AssetList_Widget, self).__init__(parent)
 
-        hLayout = QHBoxLayout()
-        
-        self.button1 = QPushButton('버튼11111')
-        self.button2 = QPushButton('버튼22222')
-        self.button3 = QPushButton('버튼33333')
-        self.button4 = QPushButton('버튼44444')
+# class Ui(QtWidgets.QMainWindow):
+#     def __init__(self):
+#         super(Ui, self).__init__()
+        uic.loadUi('ui/wg_test1.ui', self)
+        self.pushButton.clicked.connect(self.showMessageBox)
 
-        hLayout.addWidget(self.button1)
-        hLayout.addWidget(self.button2)
-        hLayout.addWidget(self.button3)
-        hLayout.addWidget(self.button4)
+    # def pushButton_clicked(self):
+    #     self.showdialog()
 
-        vLayout = QVBoxLayout()
-        vLayout.setContentsMargins(0,0,0,0)
-        vLayout.addLayout(hLayout)
-        self.setLayout(vLayout)
+        # Find the button with the name "printButton"
+        # self.button = self.findChild(QtWidgets.QPushButton, 'printButton')
+    def showMessageBox(self):
+        msgbox = QMessageBox(self)
+        msgbox.question(self, 'MessageBox title', 'Here comes message', QMessageBox.Yes | QMessageBox.No)
+
 
 
 # 분리되어진 위젯중에 메인에 위치하는 윗젯 (Central Widget)
