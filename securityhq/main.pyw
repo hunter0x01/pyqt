@@ -38,6 +38,28 @@ class DashBoardWidget(QWidget):
         self.setLayout(vLayout)
 
 
+class AssetList_Widget(QWidget):
+    def __init__(self, parent=None):
+        super(AssetList_Widget, self).__init__(parent)
+
+        hLayout = QHBoxLayout()
+        
+        self.button1 = QPushButton('버튼11111')
+        self.button2 = QPushButton('버튼22222')
+        self.button3 = QPushButton('버튼33333')
+        self.button4 = QPushButton('버튼44444')
+
+        hLayout.addWidget(self.button1)
+        hLayout.addWidget(self.button2)
+        hLayout.addWidget(self.button3)
+        hLayout.addWidget(self.button4)
+
+        vLayout = QVBoxLayout()
+        vLayout.setContentsMargins(0,0,0,0)
+        vLayout.addLayout(hLayout)
+        self.setLayout(vLayout)
+
+
 # 분리되어진 위젯중에 메인에 위치하는 윗젯 (Central Widget)
 class MainWidget(QWidget):
     def __init__(self):
@@ -180,22 +202,72 @@ class MainApp(QMainWindow):
         self.treeWidget.header().setVisible(False)
         self.treeWidget.setAlternatingRowColors(True)
 
-        # 메뉴 구성 
-        for i in range(3):
-            parent = QTreeWidgetItem(self.treeWidget)
-            parent.setText(0, "Parent {}".format(i))
-            # parent.setFlags(parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
-            parent.setFlags(parent.flags() )
-            for x in range(5):
-                child = QTreeWidgetItem(parent)
 
-                # child.setFlags(child.flags() | Qt.ItemIsUserCheckable)   
-                child.setFlags(child.flags() )             
-                child.setText(0, "Child {}".format(x))
-                # child.setCheckState(0, Qt.Unchecked)
-        # self.treeWidget.itemClicked.connect(self.login)
-        # 버티컬 레이아웃
 
+        parent = QTreeWidgetItem(self.treeWidget)
+        parent.setText(0, "자산관리")
+        parent.setFlags(parent.flags())
+        child = QTreeWidgetItem(parent) 
+        child.setFlags(child.flags())             
+        child.setText(0, "자산목록")
+
+
+        parent = QTreeWidgetItem(self.treeWidget)
+        parent.setText(0, "정보보안")
+        parent.setFlags(parent.flags())
+        child = QTreeWidgetItem(parent) 
+        child.setFlags(child.flags())             
+        child.setText(0, "시스템보안1")
+        child = QTreeWidgetItem(parent) 
+        child.setFlags(child.flags())             
+        child.setText(0, "시스템보안2")
+
+
+        parent = QTreeWidgetItem(self.treeWidget)
+        parent.setText(0, "보안점검")
+        parent.setFlags(parent.flags())
+        child = QTreeWidgetItem(parent) 
+        child.setFlags(child.flags())             
+        child.setText(0, "보안툴1")
+        child = QTreeWidgetItem(parent) 
+        child.setFlags(child.flags())             
+        child.setText(0, "보안툴2")
+
+        parent = QTreeWidgetItem(self.treeWidget)
+        parent.setText(0, "보안점검")
+        parent.setFlags(parent.flags())
+        child = QTreeWidgetItem(parent) 
+        child.setFlags(child.flags())             
+        child.setText(0, "보안툴1")
+        child = QTreeWidgetItem(parent) 
+        child.setFlags(child.flags())             
+        child.setText(0, "보안툴2")
+
+
+
+        # self.treeWidget.itemClicked.connect(self.select_wg)
+        # 윗젯 선택 하기
+        self.treeWidget.itemSelectionChanged.connect(self.select_widget)
+#        
+        
+# """
+#         # 메뉴 구성 
+#         for i in range(3):
+#             parent = QTreeWidgetItem(self.treeWidget)
+#             parent.setText(0, "자산관리  {}".format(i))
+#             #> parent.setFlags(parent.flags() | Qt.ItemIsTristate | Qt.ItemIsUserCheckable)
+#             parent.setFlags(parent.flags() )
+#             for x in range(5):
+#                 child = QTreeWidgetItem(parent)
+
+#                 #> child.setFlags(child.flags() | Qt.ItemIsUserCheckable)   
+#                 child.setFlags(child.flags() )             
+#                 child.setText(0, "Child {}".format(x))
+#                 #> child.setCheckState(0, Qt.Unchecked)
+
+#         # self.treeWidget.itemClicked.connect(self.login)
+#         # 버티컬 레이아웃
+# """
         self.vtlayout_TreeMenu = QVBoxLayout(self.dockWidgetLeftTree)
         self.vtlayout_TreeMenu.setContentsMargins(4, 4, 4, 4)
         self.vtlayout_TreeMenu.setObjectName("verticalLayout")
@@ -258,6 +330,31 @@ class MainApp(QMainWindow):
         self.setGeometry(0, 0, 1024, 768) # 윈도우 위치 및 크기 
         self.center() #위도우 위치를 중앙에 이동시킴
         self.show() #보여줌 
+
+        
+    # TreeWidget에서 선택된 레이블 값 얻기 
+    def select_widget(self):
+        self.wg_center = QStackedWidget()
+        self.setCentralWidget(self.wg_center)
+
+        getSelected = self.treeWidget.selectedItems()
+        if getSelected:
+            baseNode = getSelected[0]
+            getChildNode = baseNode.text(0)
+            print(getChildNode)
+
+            if getChildNode == "자산목록":
+                print("자산목록[선택]")
+                wg_Asset = AssetList_Widget(self)        
+                self.button1 = QPushButton('Btn1')
+                self.wg_center.addWidget(wg_Asset)
+
+
+
+
+    # def select_wg(self): 
+    #     print("select")
+
 
 
     def center(self): # 중앙에 윈도우를 위치시키는 메소드 
