@@ -49,7 +49,7 @@ class AssetList_Widget(QWidget):
 # class Ui(QtWidgets.QMainWindow):
 #     def __init__(self):
 #         super(Ui, self).__init__()
-        uic.loadUi('ui/wg_test1.ui', self)
+        uic.loadUi('./ui/wg_test1.ui', self)
         self.pushButton.clicked.connect(self.showMessageBox)
 
     # def pushButton_clicked(self):
