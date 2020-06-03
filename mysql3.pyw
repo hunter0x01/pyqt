@@ -33,31 +33,38 @@ import pymysql
 
 
 # create database securityhq;
-# GRANT ALL PRIVILEGES ON *.* TO 'securityhq'@'%' IDENTIFIED BY 'securityhq';
+#-- GRANT ALL PRIVILEGES ON *.* TO 'securityhq'@'%' IDENTIFIED BY 'securityhq';
 
-DROP TABLE IPAM;
 
-CREATE TABLE IPAM ( 
-  num       tinyint(3) unsigned NOT NULL, # 1 to 255 순서번호
-  ip        varchar(11) NOT NULL, # IP 주소
-  mac       char(17) NOT NULL, # Mac 주소
-  compnm    varchar(100) NULL,  # 수행자
-  cmt       varchar(20) NOT NULL, # 사용용도
-  user_req  varchar(10) NULL,  # 요청자
-  user      varchar(10) NULL,  # 수행자
-  created   datetime, # 적용일 
-  memo      tinytext, # 변경 메모
-  PRIMARY KEY (num,ip) # Primary Key 
-);
+#Starting with MySQL 8 you no longer can (implicitly) create a user using the GRANT command.
+#Use CREATE USER instead, followed by the GRANT statement:
+
+# CREATE USER 'securityhq'@'%' IDENTIFIED BY 'securityhq';
+# GRANT ALL PRIVILEGES ON *.* TO 'securityhq'@'%' WITH GRANT OPTION;
+
+# DROP TABLE IPAM;
+
+# CREATE TABLE IPAM ( 
+#   num       tinyint(3) unsigned NOT NULL, # 1 to 255 순서번호
+#   ip        varchar(11) NOT NULL, # IP 주소
+#   mac       char(17) NOT NULL, # Mac 주소
+#   compnm    varchar(100) NULL,  # 수행자
+#   cmt       varchar(20) NOT NULL, # 사용용도
+#   user_req  varchar(10) NULL,  # 요청자
+#   user      varchar(10) NULL,  # 수행자
+#   created   datetime, # 적용일 
+#   memo      tinytext, # 변경 메모
+#   PRIMARY KEY (num,ip) # Primary Key 
+# );
 
 # insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(1,'123.123.123.123','aa:bb:cc:dd:ee:ff','LIBRARY use','박기용','박기용',now(),'최초생성');
 # select * from ipam;
 
 # Network Default Input
-insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(0,'134.75.122','aa:aa:aa:aa:aa:aa','NET','박기용','박기용',now(),'네트워크기본');
-insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(0,'10.75.122' ,'aa:aa:aa:aa:aa:aa','NET','박기용','박기용',now(),'네트워크기본');
-insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(0,'12.75.122' ,'aa:aa:aa:aa:aa:aa','NET','박기용','박기용',now(),'네트워크기본');
-insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(0,'172.16.1'  ,'aa:aa:aa:aa:aa:aa','NET','박기용','박기용',now(),'네트워크기본');
+# insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(0,'134.75.122','aa:aa:aa:aa:aa:aa','NET','박기용','박기용',now(),'네트워크기본');
+# insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(0,'10.75.122' ,'aa:aa:aa:aa:aa:aa','NET','박기용','박기용',now(),'네트워크기본');
+# insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(0,'12.75.122' ,'aa:aa:aa:aa:aa:aa','NET','박기용','박기용',now(),'네트워크기본');
+# insert into ipam(num,ip,mac,cmt,user_req,user,created,memo) values(0,'172.16.1'  ,'aa:aa:aa:aa:aa:aa','NET','박기용','박기용',now(),'네트워크기본');
 
 # 255.255.255.255
 # 12:34:56:78:90:AB
@@ -88,6 +95,12 @@ create table mac_oui (
 );
 
  # ALTER TABLE `mac_oui` DROP TABLESPACE;
+
+
+# SHOW GLOBAL VARIABLES LIKE 'local_infile';
+# SET GLOBAL local_infile = 'ON';
+# SHOW GLOBAL VARIABLES LIKE 'local_infile';
+
 
 
 # LOAD DATA LOCAL INFILE '/Users/steve/Downloads/macaddress.io-db.csv'  INTO TABLE securityhq.mac_oui FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' ;

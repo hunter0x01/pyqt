@@ -1,0 +1,298 @@
+
+$HOME/.vimrc
+set smartindent
+set tabstop=4
+set expandtab
+set shiftwidth=4 " >> 또는 << 키로 들여 쓰기 할때 스페이스의 갯수. 기본값 8
+
+
+== Project ==
+django-admin startproject SecurityHQ
+cd SecurityHQ
+python3 manage.py startapp UserMgmt
+
+settings app 목록에 추가 
+
+
+== Project Settings 에 새성한 app UserMgmt 추가 ==
+/Users/steve/Desktop/pyqt/django/SecurityHQ/UserMgmt
+
+$cat apps.py
+class UsermgmtConfig(AppConfig):
+'SecurityHQ.apps.UsermgmtConfig',
+
+/Users/steve/Desktop/pyqt/django/SecurityHQ/SecurityHQ
+$cat settings.py| grep 'Security'
+    'SecurityHQ.apps.UsermgmtConfig',
+
+
+
+# 관리자 페이지 
+python3 manage.py migrate
+
+$python3 ./manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying sessions.0001_initial... OK
+
+
+python3 manage.py createsuperuser
+
+ steve@baggiyong-ui-MacBook-Air  ~/Desktop/pyqt/django/SecurityHQ   master ✚  python3 manage.py createsuperuser
+Username (leave blank to use 'steve'): admin
+Email address: hunter0x01@gmail.com
+Password:
+Password (again):
+Superuser created successfully.
+ steve@baggiyong-ui-MacBook-Air  ~/Desktop/pyqt/django/SecurityHQ   master ✚ 
+
+
+
+
+ steve@baggiyong-ui-MacBook-Air  ~/Desktop/pyqt/django/SecurityHQ   master ✚  python3 manage.py runserver 0.0.0.0:8000
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 04, 2020 - 13:25:04
+Django version 3.0.5, using settings 'SecurityHQ.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+
+
+
+http://0.0.0.0:8000/
+
+DisallowedHost at /
+
+
+settings.py
+    ALLOWED_HOSTS = ['*']
+
+
+http://0.0.0.0:8000/
+
+
+http://0.0.0.0:8000/admin/login/?next=/admin/
+
+
+admin/wer234@#$
+
+
+
+
+from django.db import models
+
+class Member(models.Model):
+	m_name = models.CharField(max_length=100)
+	m_major = models.CharField(max_length=100)
+	m_age = models.IntegerField(default=0)
+	m_grade = models.IntegerField(default=0)
+	m_gender = models.CharField(max_length=30)
+
+	def __str__(self):
+		return self.m_name
+
+
+admin.py
+from django.contrib import admin
+# Register your models here.
+
+from UserMgmt.models import Member
+admin.site.register(Member)
+
+
+
+ ✘ steve@baggiyong-ui-MacBook-Air  ~/Desktop/pyqt/django/SecurityHQ   master ✚  python3 manage.py makemigrations
+Migrations for 'UserMgmt':
+  UserMgmt/migrations/0001_initial.py
+    - Create model Member
+
+
+# Refresh
+http://0.0.0.0:8000/admin/login/?next=/admin/
+
+
+ steve@baggiyong-ui-MacBook-Air  ~/Desktop/pyqt/django/SecurityHQ   master ✚  python3 manage.py migrate
+Operations to perform:
+  Apply all migrations: UserMgmt, admin, auth, contenttypes, sessions
+Running migrations:
+  Applying UserMgmt.0001_initial... OK
+
+
+
+
+$ python3 manage.py shell
+
+Python 3.7.4 (v3.7.4:e09359112e, Jul  8 2019, 14:54:52)
+[Clang 6.0 (clang-600.0.57)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from UserMgmt.models import Member
+>>> qs = Member(m_name='hongildong', m_major='computer', m_age=21, m_grade=2, m_gender='M')
+>>> qs.save()
+>>>
+>>>
+
+
+
+
+
+>>> qs = Member.objects.get(m_name='Kiyong')
+>>> qs.m_name
+'Kiyong'
+>>> qs = Member.objects.filter(m_age__lt=30)
+>>> qs
+<QuerySet [<Member: hongildong>, <Member: white>, <Member: lafungel>]>
+>>>
+>>> qs = Member.objects.filter(m_age__gt=30)
+>>> qs
+<QuerySet []>
+>>>
+>>>
+>>>
+>>> qs
+<QuerySet [<Member: lafungel>, <Member: Kiyong>, <Member: hongildong>, <Member: white>]>
+>>>
+>>>
+>>>
+>>> qs = Member.objects.get(m_name='Kiyong')
+>>> qs
+<Member: Kiyong>
+>>>
+>>> qs.s_major='mathmetics'
+>>> qs.save()
+>>>
+>>> qs
+<Member: Kiyong>
+>>> qs.m_name
+'Kiyong'
+>>> qs.m_major
+'Computer'
+>>> qs.m_majro='mathmetics'
+>>> qs.save()
+>>>
+
+
+
+
+
+>>> from UserMgmt.models import Member
+>>>
+>>>
+>>> qs = Member(m_name='hongildong', m_major='computer', m_age=21, m_grade=2, m_gender='M')
+>>> qs.save()
+>>>
+>>>
+>>> qs = Member(m_name='white', m_major='computer', m_age=22, m_grade=3, m_gender='F')
+>>> qs.save()
+>>>
+>>>
+>>> qs = Member(m_name='lafungel', m_major='computer', m_age=20, m_grade=1, m_gender='F')
+>>> qs.save()
+>>>
+>>>
+>>> Member.objects.all()
+<QuerySet [<Member: Kiyong>, <Member: hongildong>, <Member: white>, <Member: lafungel>]>
+
+SyntaxError: invalid syntax
+>>> qs = Member.objects.all()
+>>> type(qs)
+
+>>>
+>>> qs = Member.objects.get(m_name='Kiyong')
+>>>
+>>> type(qs)
+<class 'UserMgmt.models.Member'>
+>>>
+
+>>> qs = Member.objects.all()
+>>>
+>>> print(qs[0])
+Kiyong
+>>> print(qs[1])
+hongildong
+>>> print(qs[2])
+white
+>>> print(qs[3])
+lafungel
+>>>
+>>> qs[0].m_name
+'Kiyong'
+>>> print(qs[0].m_name)
+Kiyong
+>>>
+>>> qs[0].m_age
+30
+>>> print(qs[0].m_age)
+30
+>>>
+>>> qs[1].m_name
+'hongildong'
+>>> qs[2].m_name
+'white'
+>>> qs[3].m_name
+'lafungel'
+>>> qs[0].m_name
+'Kiyong'
+>>>
+
+
+qs.m_major='mathmetics'
+
+
+
+
+
+>>> from UserMgmt.models import Member
+>>>
+>>>
+>>> qs = Member.objects.get(m_name='Kiyong')
+>>> qs
+<Member: Kiyong>
+>>> qs.m_major
+'Computer'
+>>> qs.m_major='mathmetics'
+>>> qs.m_major
+'mathmetics'
+>>>
+>>>
+>>> qs.save()
+>>> qs.m_major
+'mathmetics'
+
+
+
+
+
+>>> from UserMgmt.models import Member
+>>> qs = Member.objects.get(m_name='Kiyong')
+>>>
+>>> qs
+<Member: Kiyong>
+>>>
+>>> qs.delete()
+(1, {'UserMgmt.Member': 1})
+>>>
+
+
+
+

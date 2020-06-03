@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+	<title> List </title>
+</head>
+
+<body>
+	list()
+
+<!-- 	<form action="" method="post">
+		{{ form.as_p }}
+		{% csrf_token %}
+		<button type="submit" class="btn btn-primary">저장</button>
+	</form> -->
+	<ul>
+	{% for article in articleList %}
+	<li>{{ article.title}} || <a href='/view/{{article.id}}'>{{article.name }}</a> || {{article.cdate|date:"D d M Y"}}</li>
+	{% endfor %}
+	</ul>
+</body>
+</html>

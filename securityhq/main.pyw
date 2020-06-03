@@ -13,6 +13,9 @@ from PyQt5.QtCore import QBasicTimer, pyqtSignal, QObject, QSize, QRect
 from PyQt5.QtGui import QIcon, QPixmap, QColor, QPainter, QBrush, QPen, QPolygonF, QWheelEvent
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 from PyQt5 import uic
+from pyqtgraph import PlotWidget, plot
+import pyqtgraph as pg
+
 import requests
 from bs4 import BeautifulSoup
 import random
@@ -52,6 +55,8 @@ class AssetList_Widget(QWidget):
         uic.loadUi('./ui/wg_test1.ui', self)
         self.pushButton.clicked.connect(self.showMessageBox)
 
+
+
     # def pushButton_clicked(self):
     #     self.showdialog()
 
@@ -59,7 +64,7 @@ class AssetList_Widget(QWidget):
         # self.button = self.findChild(QtWidgets.QPushButton, 'printButton')
     def showMessageBox(self):
         msgbox = QMessageBox(self)
-        msgbox.question(self, 'MessageBox title', 'Here comes message', QMessageBox.Yes | QMessageBox.No)
+        msgbox.question(self, 'MessageBox title', 'Here comes message', QMessageBox.Ok)
 
 
 

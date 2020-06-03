@@ -1,0 +1,80 @@
+2020-04-24 22:17:55,442 - ERROR - while while
+2020-04-24 22:17:55,443 - INFO - 2020-04-25 03:47:55.443320
+2020-04-24 22:19:49,476 - ERROR - while while
+2020-04-24 22:19:49,477 - INFO - 2020-04-25 03:49:49.477586
+2020-04-24 22:21:17,067 - ERROR - while while
+2020-04-24 22:21:17,068 - INFO - 2020-04-25 03:51:17.068425
+2020-04-24 22:21:36,046 - ERROR - while while
+2020-04-24 22:21:36,046 - INFO - 2020-04-25 03:51:36.046850
+2020-04-24 22:21:36,076 - ERROR - Exception while fetching GA
+Traceback (most recent call last):
+  File "test1.py", line 99, in gaRealtimeJob
+    scope='https://www.googleapis.com/auth/analytics.readonly')
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/googleapiclient/sample_tools.py", line 78, in init
+    flags = parser.parse_args(argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/argparse.py", line 1752, in parse_args
+    self.error(msg % ' '.join(argv))
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/argparse.py", line 2501, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/argparse.py", line 2488, in exit
+    _sys.exit(status)
+SystemExit: 2
+2020-04-24 22:23:29,585 - ERROR - while while
+2020-04-24 22:23:29,586 - INFO - 2020-04-25 03:53:29.586640
+2020-04-24 22:23:29,651 - ERROR - Exception while fetching GA
+Traceback (most recent call last):
+  File "test1.py", line 99, in gaRealtimeJob
+    scope='https://www.googleapis.com/auth/analytics.readonly')
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/googleapiclient/sample_tools.py", line 78, in init
+    flags = parser.parse_args(argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/argparse.py", line 1752, in parse_args
+    self.error(msg % ' '.join(argv))
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/argparse.py", line 2501, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/argparse.py", line 2488, in exit
+    _sys.exit(status)
+SystemExit: 2
+2020-04-24 22:23:37,669 - ERROR - while while
+2020-04-24 22:23:37,670 - INFO - 2020-04-25 03:53:37.670152
+2020-04-24 22:23:37,697 - ERROR - Exception while fetching GA
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/oauth2client/clientsecrets.py", line 86, in _validate_clientsecrets
+    (client_type, client_info), = clientsecrets_dict.items()
+ValueError: too many values to unpack (expected 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/oauth2client/client.py", line 2135, in flow_from_clientsecrets
+    cache=cache)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/oauth2client/clientsecrets.py", line 165, in loadfile
+    return _loadfile(filename)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/oauth2client/clientsecrets.py", line 126, in _loadfile
+    return _validate_clientsecrets(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/oauth2client/clientsecrets.py", line 89, in _validate_clientsecrets
+    _INVALID_FILE_FORMAT_MSG + ' '
+oauth2client.clientsecrets.InvalidClientSecretsError: Invalid file format. See https://developers.google.com/api-client-library/python/guide/aaa_client_secrets Expected a JSON object with a single property for a "web" or "installed" application
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test1.py", line 99, in gaRealtimeJob
+    scope='https://www.googleapis.com/auth/analytics.readonly')
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/googleapiclient/sample_tools.py", line 88, in init
+    client_secrets, scope=scope, message=tools.message_if_missing(client_secrets)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/oauth2client/_helpers.py", line 133, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/oauth2client/client.py", line 2165, in flow_from_clientsecrets
+    sys.exit(message)
+SystemExit: The client secrets were invalid: 
+Invalid file format. See https://developers.google.com/api-client-library/python/guide/aaa_client_secrets Expected a JSON object with a single property for a "web" or "installed" application
+WARNING: Please configure OAuth 2.0
+
+To make this sample run you will need to populate the client_secrets.json file
+found at:
+
+   client_secrets.json
+
+with information from the APIs Console <https://code.google.com/apis/console>.
+
+

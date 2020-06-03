@@ -1,0 +1,342 @@
+pip install django
+django-admin startproject tutorial
+./manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying sessions.0001_initial... OK
+
+  # 테이블 생성 , 기본 데이터 베이스 테이블 생성
+
+  # 슈퍼유저 생성
+./manage.py createsuperuser
+Username (leave blank to use 'steve'): admin
+Email address: admin
+Error: Enter a valid email address.
+Email address: hunter0x01@gmail.com
+Password:
+Password (again):
+The password is too similar to the username.
+This password is too short. It must contain at least 8 characters.
+This password is too common.
+Bypass password validation and create user anyway? [y/N]: y
+Superuser created successfully.
+
+
+
+# 서버가동
+ ./manage.py runserver 8080
+
+
+# 관리자 페이지 접속
+http://127.0.0.1:8080/admin/login/?next=/admin/
+
+# 프로젝트 내에 app 생성 
+
+./manage.py startapp community
+
+# App 등록
+vi tutorial/settings.py
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'community',
+]
+
+
+
+# 
+.
+├── community
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── db.sqlite3 
+├── manage.py
+└── tutorial
+    ├── __init__.py
+    ├── __pycache__
+    │   ├── __init__.cpython-37.pyc
+    │   ├── settings.cpython-37.pyc
+    │   ├── urls.cpython-37.pyc
+    │   └── wsgi.cpython-37.pyc
+    ├── asgi.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
+
+
+
+
+# 모델 생성 정의
+community/models.py
+-모델은 클래스로
+from django.db import models
+
+# Create your models here.
+
+class Article(models.Model):
+	name = models.CharField(max_length=50)
+	title = models.CharField(max_length=50)
+	contents = models.TextField()
+	url = models.URLField()
+	email = models.EmailField()
+	cdate = models.DateTimeField(auto_now_add=True)
+
+
+
+# 모델 생성 확인만, 아직 데이터베이스에 적용안된상테
+./manage.py makemigrations community
+Migrations for 'community':
+  community/migrations/0001_initial.py
+    - Create model Article
+
+
+# 테이블 실제 생성
+./manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, community, contenttypes, sessions
+Running migrations:
+  Applying community.0001_initial... OK
+
+
+
+ # url 정의 urls.py
+
+
+ urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('write/', write, name='write'),
+]
+
+
+# urls.py
+from django.contrib import admin
+from django.urls import path
+
+from community.views import *
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('write/', write, name='write'),
+]
+
+
+
+# views 에 write 함수 
+
+from django.shortcuts import render
+
+# Create your views here.
+def write(request):
+	return render(request, 'write.html')
+
+	# request 에서 write.html 로 보내는 작업 
+
+
+
+
+# templates폴더 생성 
+write.html 파일 생성
+
+
+# 태그 안넣고 Article model 에서 폼 만듬
+
+# forms.py
+
+from django.forms import ModelForm
+from community.models import *
+
+class Form(ModelForm):
+	class Meta:
+		model = Article
+		fields = ['name', 'contents', 'url', 'email']
+
+# 
+
+
+# views.py
+from django.shortcuts import render
+from community.forms import *
+
+# Create your views here.
+def write(request):
+	form = Form() # form 데이터 write.html 전달
+	return render(request, 'write.html', {'form':form})
+
+	# request 에서 write.html 로 보내는 작업 
+
+
+# write.html
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+	<title> Write </title>
+</head>
+
+<body>
+	write()
+	{% comment %}
+		{{ form.as_table }}
+		{{ from.as_p }}
+		{{ form.as_ul }}
+	{% endcomment %}
+
+	{{ form.as_ul }}
+
+</body>
+</html>
+ 
+# views.py  DB 에 저장 
+from django.shortcuts import render
+from community.forms import *
+
+# Create your views here.
+def write(request):
+	if request.method == 'POST':
+		form = Form(request.POST)
+		if form.is_valid():
+			form.save() #  DB 에 저정한다. 
+
+
+	else:
+		form = Form()# form 데이터 write.html 전달
+	return render(request, 'write.html', {'form':form})
+	# request 에서 write.html 로 보내는 작업 
+
+
+
+
+# write.html 에 csrf 토큰 생성 안하면 #403에러 발생
+
+{% csrf_token %}
+
+
+
+
+# urls.py list url  
+from django.contrib import admin
+from django.urls import path
+
+from community.views import *
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('write/', write, name='write'),
+    path('list/', list, name='list'),    
+]
+
+# views.py
+
+from django.shortcuts import render
+from community.forms import *
+
+# Create your views here.
+def write(request):
+	if request.method == 'POST':
+		form = Form(request.POST)
+		if form.is_valid():
+			form.save() #  DB 에 저정한다. 
+
+
+	else:
+		form = Form()# form 데이터 write.html 전달
+	return render(request, 'write.html', {'form':form})
+	# request 에서 write.html 로 보내는 작업 
+
+
+def list(request):
+	return render(request, 'list.html')
+
+# views.py 에서
+
+
+def list(request):
+	articleList = Article.objects.all() # 모든 row 가지고 온다 
+	return render(request, 'list.html', {'articleList':articleList})
+
+
+# templates/list.html 에서 변수 값 갖고옴
+
+
+# urls.py view 를 위한 
+
+from django.contrib import admin
+from django.urls import path
+from django.urls import re_path # 추가
+
+from community.views import *
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('write/', write, name='write'),
+    path('list/', list, name='list'),    
+    re_path('^view/(?P<num>[0-9]+)/$', view, name='view'),
+    # path('view/<int:album_id>/', view, name='view'),
+    # url('^view/(?P<num>[0-9]+)/$', view, name='view'),    
+]
+
+
+# views.py 
+
+def view(request, num=1):
+	articleList = Article.objects.get(id=num)
+	return render(request, 'view.html', {'article':article})
+
+
+
+# list.html
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+	<title> List </title>
+</head>
+
+<body>
+	list()
+
+<!-- 	<form action="" method="post">
+		{{ form.as_p }}
+		{% csrf_token %}
+		<button type="submit" class="btn btn-primary">저장</button>
+	</form> -->
+	<ul>
+	{% for article in articleList %}
+	<li>{{ article.title}} || <a href='/view/{{article.id}}'>{{article.name }}</a> || {{article.cdate|date:"D d M Y"}}</li>
+	{% endfor %}
+	</ul>
+</body>
+</html>
+
+
+
+
+
+

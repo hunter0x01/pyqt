@@ -1,0 +1,13 @@
+
+https://daeguowl.tistory.com/41
+
+
+django-admin startproject config .
+python manage.py migrate
+python manage.py startapp photo
+upload_to="timeline_photo/Y/m/d"
+pip install Pillow
+python manage.py makemigrations photo
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver 8000
